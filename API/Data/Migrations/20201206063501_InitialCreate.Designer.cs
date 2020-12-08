@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201101022138_UserPasswordAdded")]
-    partial class UserPasswordAdded
+    [Migration("20201206063501_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.0-preview.8.20407.4");
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
@@ -35,7 +35,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }
