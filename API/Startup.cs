@@ -31,16 +31,18 @@ namespace API
         {
             app.UseMiddleware<ExceptionMiddleware>();
 
-            app.UseSwagger(c => {
+            app.UseSwagger(c =>
+            {
                 c.SerializeAsV2 = true;
             });
 
-            app.UseSwaggerUI(c => {
+            app.UseSwaggerUI(c =>
+            {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api v1.0");
             });
 
             app.UseHttpsRedirection();
-
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
             app.UseAuthentication();
 
             app.UseRouting();
@@ -52,7 +54,7 @@ namespace API
                 endpoints.MapControllers();
             });
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+
 
             app.UseEndpoints(endpoints =>
             {
