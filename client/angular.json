@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "5d5f3f57-eb0d-436d-983f-6ce4ecd097ad"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -61,7 +64,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,

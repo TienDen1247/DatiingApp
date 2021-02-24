@@ -28,7 +28,8 @@ export class MemberListComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.loadMembers()
+    this.loadMembers();
+    console.log( this.members);
   }
 
   loadMembers(){
