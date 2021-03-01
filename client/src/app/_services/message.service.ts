@@ -26,7 +26,7 @@ export class MessageService {
 
   createHubConnection(user: User, otherUsername: string) {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubUrl+'message?user=' + otherUsername, {
+      .withUrl(this.hubUrl + 'message?user=' + otherUsername, {
         accessTokenFactory: () => user.token
       })
       .withAutomaticReconnect()
@@ -45,10 +45,10 @@ export class MessageService {
     });
 
     this.hubConnection.on('UpdatedGroup', (group: Group) => {
-      if(group.connections.some(x => x.username === otherUsername)) {
+      if (group.connections.some(x => x.username === otherUsername)) {
         this.messageThread$.pipe(take(1)).subscribe(messages => {
           messages.forEach(message => {
-            if(!message.dateRead) {
+            if (!message.dateRead) {
               message.dateRead = new Date(Date.now());
             }
           })
@@ -59,29 +59,28 @@ export class MessageService {
   }
 
   stopHubConnection() {
-    if( this.hubConnection) {
+    if (this.hubConnection) {
       this.hubConnection.stop();
     }
   }
 
-  getMessages(pageNumber, pageSize, container){
+  getMessages(pageNumber, pageSize, container) {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append("Container", container);
 
-    return getPaginationResult<Message[]>(this.baseUrl + 'messages',params, this.http);
+    return getPaginationResult<Message[]>(this.baseUrl + 'messages', params, this.http);
   }
 
-  getMessageThread(username: string)
-  {
-     return this.http.get<Message[]>(this.baseUrl+ 'messages/thread/'+ username);
+  getMessageThread(username: string) {
+    return this.http.get<Message[]>(this.baseUrl + 'messages/thread/' + username);
   }
 
   async sendMessage(username: string, content: string) {
-    return this.hubConnection.invoke('SendMessage', {recipientUsername: username, content} )
+    return this.hubConnection.invoke('SendMessage', { recipientUsername: username, content })
       .catch(error => console.log(error));
   }
 
-  deleteMessage(id: number){
-   return this.http.delete(this.baseUrl + "messages/"+id);
+  deleteMessage(id: number) {
+    return this.http.delete(this.baseUrl + "messages/" + id);
   }
 }

@@ -17,11 +17,9 @@ namespace API.Extensions
             services.AddSingleton<PresenceTracker>();
             services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<LogUserActivity>();
-            services.AddScoped<ILikesRepository, LikesRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IPhotoService, PhotoService>();
+            services.AddScoped<LogUserActivity>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddEntityFrameworkSqlite().AddDbContext<DataContext>(options =>
                        {
