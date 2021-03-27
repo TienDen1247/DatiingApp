@@ -17,7 +17,7 @@ export class AccountService {
 
   constructor(private http: HttpClient, private presenceService: PresenceService) { }
 
-  login(model: any) {
+  login(model: any): any {
     return this.http.post('https://localhost:5001/api/account/login', model).pipe(
       map((response: User) => {
         const user = response;
@@ -29,10 +29,10 @@ export class AccountService {
     );
   }
 
-  register(model: any) {
+  register(model: any): any {
     return this.http.post(this.baseUrl + 'account/register', model).pipe(
       map((user: User) => {
-        if (user) {       
+        if (user) {
           this.setCurrentUser(user);
           this.presenceService.createHubConnection(user);
         }
@@ -41,7 +41,7 @@ export class AccountService {
   }
 
 
-  setCurrentUser(user: User) {
+  setCurrentUser(user: User): void {
     user.roles = [];
     const roles = this.getDecodedToken(user.token).role;
     Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
@@ -49,13 +49,13 @@ export class AccountService {
     this.currentUserSource.next(user);
   }
 
-  logout() {
+  logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
     this.presenceService.stopHubConnection();
   }
 
-  getDecodedToken(token) {
+  getDecodedToken(token): any{
     return JSON.parse(atob(token.split('.')[1]));
   }
 }

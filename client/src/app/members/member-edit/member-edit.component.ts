@@ -18,8 +18,8 @@ export class MemberEditComponent implements OnInit {
   user: User;
   member: Member;
 
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
-    if(this.editForm.dirty) {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any): any {
+    if (this.editForm.dirty) {
       $event.returnValue = true;
     }
   }
@@ -32,13 +32,13 @@ export class MemberEditComponent implements OnInit {
     this.loadMember();
   }
 
-  loadMember() {
+  loadMember(): any {
     this.memberService.getMember(this.user.username).subscribe(member => this.member = member);
   }
-  updateMember(){
+  updateMember(): any{
     this.memberService.updateMember(this.member).subscribe(() => {
       this.toastr.success('save data success');
       this.editForm.reset(this.member);
-    });   
+    });
   }
 }

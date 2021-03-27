@@ -1,15 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http'
-import { Injectable } from '@angular/core'
-import { of } from 'rxjs'
-import { map, take } from 'rxjs/operators'
-import { environment } from 'src/environments/environment'
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
-import { Member } from '../_models/member'
-import { PaginatedResult } from '../_models/pagination'
-import { User } from '../_models/user'
-import { UserParams } from '../_models/userParams'
-import { AccountService } from './account.service'
-import { getPaginationHeaders, getPaginationResult } from './paginationHelper'
+import { Member } from '../_models/member';
+import { PaginatedResult } from '../_models/pagination';
+import { User } from '../_models/user';
+import { UserParams } from '../_models/userParams';
+import { AccountService } from './account.service';
+import { getPaginationHeaders, getPaginationResult } from './paginationHelper';
 
 @Injectable({
     providedIn: 'root'
@@ -25,26 +25,26 @@ export class MemberService {
         this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
             this.user = user;
             this.userParams = new UserParams(user);
-        })
+        });
 
     }
 
-    getUserParams() {
+    getUserParams(): any{
         return this.userParams;
     }
 
-    setUserParams(params: UserParams) {
+    setUserParams(params: UserParams): any {
         this.userParams = params;
     }
 
-    resetUserParams() {
+    resetUserParams(): any {
         return new UserParams(this.user);
     }
 
-    getMembers(userParams: UserParams) {
-        let response = this.memberCache.get(Object.values(userParams).join('-'));
-        if (response) {
-            return of(response);
+    getMembers(userParams: UserParams): any{
+        const responseCache = this.memberCache.get(Object.values(userParams).join('-'));
+        if (responseCache) {
+            return of(responseCache);
         }
         let params = getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
 
@@ -60,17 +60,19 @@ export class MemberService {
             }));
     }
 
-    getMember(username: string) {
-        const member = [...this.memberCache.values()]
+    getMember(username: string): any {
+        const members = [...this.memberCache.values()]
             .reduce((arr, elem) => arr.concat(elem.result), [])
-            .find((member: Member) => member.username == username);
+            .find((member: Member) => {
+                return member.username === username;
+            });
 
-        if (member) return of(member);
+        if (members) { return of(members); }
 
         return this.http.get<Member>(this.baseUrl + 'users/' + username);
     }
 
-    updateMember(member: Member) {
+    updateMember(member: Member): any{
         return this.http.put(this.baseUrl + 'users', member).pipe(
             map(() => {
                 const index = this.members.indexOf(member);
@@ -79,23 +81,23 @@ export class MemberService {
         );
     }
 
-    setMainPhoto(photoId: number) {
+    setMainPhoto(photoId: number): any {
         return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
     }
 
-    deletePhoto(photoId: number) {
+    deletePhoto(photoId: number): any {
         return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
     }
 
-    addLike(username: string) {
+    addLike(username: string): any {
         return this.http.post(this.baseUrl + 'likes/' + username, {});
     }
 
-    getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    getLikes(predicate: string, pageNumber: number, pageSize: number): any {
 
-        var params = getPaginationHeaders(pageNumber, pageSize);
-        params = params.append("predicate", predicate);
+        let params = getPaginationHeaders(pageNumber, pageSize);
+        params = params.append('predicate', predicate);
 
         return getPaginationResult<Partial<Member[]>>(this.baseUrl + 'likes', params, this.http);
-    }  
+    }
 }

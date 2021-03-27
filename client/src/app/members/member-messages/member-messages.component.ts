@@ -9,7 +9,7 @@ import { MessageService } from 'src/app/_services/message.service';
   templateUrl: './member-messages.component.html',
   styleUrls: ['./member-messages.component.scss']
 })
-export class MemberMessagesComponent implements OnInit {  
+export class MemberMessagesComponent implements OnInit {
   @ViewChild('messageForm') messageForm: NgForm;
   @Input() messages: Message[];
   @Input() username: string;
@@ -17,14 +17,14 @@ export class MemberMessagesComponent implements OnInit {
 
   constructor(public messageService: MessageService) { }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
   }
- 
 
-  sendMessage() {
-    this.messageService.sendMessage(this.username, this.messageContent).then(() => {  
+
+  sendMessage(): any {
+    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm.reset();
-    })
+    });
   }
 
 }

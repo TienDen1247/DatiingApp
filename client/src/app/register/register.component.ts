@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
 
-  initializerForm() {
+  initializerForm(): any {
     this.registerForm = this.fb.group({
       gender: ['male'],
       username: ['', Validators.required],
@@ -33,27 +33,27 @@ export class RegisterComponent implements OnInit {
       city: ['', Validators.required],
       country: ['', Validators.required],
       password: ['', [Validators.required,
-       Validators.maxLength(8), Validators.minLength(4)]],
-      confirmPassword:['', [Validators.required,this.matchValues('password')]]
-    })
+      Validators.maxLength(8), Validators.minLength(4)]],
+      confirmPassword: ['', [Validators.required, this.matchValues('password')]]
+    });
   }
 
-  matchValues(mathTo: string){
+  matchValues(mathTo: string): any {
     return (control: AbstractControl) => {
       return control?.value === control?.parent?.controls[mathTo].value
-       ? null : {isMatching: true};
-    }
+        ? null : { isMatching: true };
+    };
   }
 
-  register() {
+  register(): any {
     this.accountService.register(this.registerForm.value).subscribe(response => {
       this.router.navigateByUrl('/members');
     }, errors => {
       this.validationErrors = errors;
-    })
+    });
   }
 
-  cancel() {
+  cancel(): any {
     this.cancelRegister.emit(false);
   }
 

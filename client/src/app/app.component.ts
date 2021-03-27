@@ -13,18 +13,18 @@ export class AppComponent implements OnInit {
   title = 'The Dating App';
   users: any;
   public constructor(private http: HttpClient,
-       private accountService: AccountService,
-       private presenceService: PresenceService) {
+                     private accountService: AccountService,
+                     private presenceService: PresenceService) {
 
   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.setCurrentUser();
   }
 
-  setCurrentUser() {
+  setCurrentUser(): any {
     const user: User = JSON.parse(localStorage.getItem('user'));
-    if(user) {
+    if (user) {
       this.accountService.setCurrentUser(user);
       this.presenceService.createHubConnection(user);
     }
